@@ -244,6 +244,8 @@ For example. You have an entity of user's posts which can exist only with a user
 
 That example describes the common approach how to build the API for the relations. But, you don't have to follow it, if you have very small and\or non-logical tied relations. That approach is just a recommendation how to organize relations in your API.
 
+The base CRUD operations and all controller method (API) of the sub-entity must be available via parent part of API and it means that all actions will be processed in the parent's context.
+
 Also, you can build all methods and operations for sub-entities:
 
 > GET /users/afdf-3f4f-65fd/posts
