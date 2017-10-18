@@ -3,13 +3,13 @@
 The description of the common points for the API development.
 
 ## Base CRUD operations
-The URLs for the basic CRUD operations must start from the entity's name in the plural form. 
+The URLs for the basic CRUD operations must start from the entity's name in the plural form and in the snake_case. 
 The URL in that form describes operations for the all entities. For example:
 > /users
 
 It means that all requests on this URL affect the entities with written name.
 
-The URLs witch affect only one entity must contain ID of the entity in the URL after name:
+The URLs which affect only one entity must contain ID of the entity in the URL after name:
 > /users/{id}
 
 > /users/1
@@ -117,12 +117,12 @@ Deletes one entity by passed id.
 Deletes all entities. 
 
 ## URL writing
-The naming of entities must be in the snake case and it must be a noun:
+The naming of entities must be in the snake_case and it must be a noun:
 > GOOD /user_details
 
 > BAD /user-details
 
-But! The actions must be verbs and should follow SnakeCase. Also, every action must start from the 'do' word:
+But! The actions must be verbs and should follow camelCase. Also, every action must start from the 'do' word:
 > GOOD /user_details/doRecalculateAddresses
 
 > BAD /user_details/recalculateAddresses
@@ -140,9 +140,13 @@ But! Every action can be applied for one entity or for the set of entities:
 
 An action might contain information for processing. The information must be passed to the server via DTO in the payload.
 
+The response might contain (in success case) next statuses:
+* 200 - the request has been processed
+* 202 - the request was accepted and will be processed later (async)
+
 ## Searching (GET ONE || GET MANY)
 
-####Additional query params
+#### Additional query params
 The endpoints for getting entities must support additional query params:
 * fields - the description of the fields which are requested. It means that the server must return only the fields which are described in that param. For example:
 > GET /users/afdf-3f4f-65fd?fields=email,username
@@ -166,11 +170,13 @@ The endpoints for getting entities must support additional query params:
 }
 ```
 
-* offset & limit - it makes sense only for searching in the set of entities.
+* offset & limit & order - it makes sense only for searching in the set of entities.
 
 offset - describes the offset for the set of results
 
 limit - describes the limit of entities in the result set
+
+order - describes how the results must be sorted
 
 ## Requests
 The requests might be very different. Actually, every request must resolve some problem in the system. It means that you are free to change request DTOs as you need.
@@ -206,7 +212,7 @@ In other words, the response with multiple entities must contain next fields:
 
 Also, every response must contain special field called 'object'. The value of which should be the name of the object serialized in the answer.
 
-##Sub-entities (relations, implicit, explicit)
+## Sub-entities (relations, implicit, explicit)
 In some cases, you might need to support relations between entities and display that in your API for usability. 
 
 For example. You have an entity of user's posts which can exist only with a user (author). It means that you can't create a post without relation to the existing user. In this case, it would be better to provide only one API which explicitly shows that you should have the user already to create a new post:
@@ -242,7 +248,7 @@ Also, you can build all methods and operations for sub-entities:
 
 > GET /users/afdf-3f4f-65fd/posts
 
-Returns all posts of the user the id of which you passed ass root of the URL.
+Returns all posts of the user the id of which you passed as root of the URL.
 
 > DELETE /user/afdf-3f4f-65fd/posts
 
@@ -257,8 +263,6 @@ And so on. You are free to build sub-entities API in accord to your business log
 ## Versions
 If you API has to support versions, you should follow next simple approach. Just put the version after root of your API, starts with 'V' letter. For example:
 > /api/v1/users
-
-> /api/v1.2/users
 
 > /v2/users
 
