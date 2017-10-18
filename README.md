@@ -114,16 +114,7 @@ Deletes one entity by passed id.
 
 > RESPONSE 200 OK
 
-Deletes all entities.
-
-## Actions
-The actions are the custom triggers which are used for triggering processes in the system.
-But! Every action can be applied for one entity or for the set of entities:
-> POST /users/doRecalculateAddresses - set entities
-
-> POST /users/afdf-3f4f-65fd?param=param1/doRecalculateAddresses - one entity
-
-An action might contain information for processing. The information must be passed to the server via DTO in the payload. 
+Deletes all entities. 
 
 ## URL writing
 The naming of entities must be in the snake case and it must be a noun:
@@ -139,6 +130,15 @@ But! The actions must be verbs and should follow SnakeCase. Also, every action m
 > BAD /user_details/makeRecalculation
 
 > BAD /user_details/do_recalculate_addresses
+
+## Actions
+The actions are the custom triggers which are used for triggering processes in the system.
+But! Every action can be applied for one entity or for the set of entities:
+> POST /users/doRecalculateAddresses - set entities
+
+> POST /users/afdf-3f4f-65fd?param=param1/doRecalculateAddresses - one entity
+
+An action might contain information for processing. The information must be passed to the server via DTO in the payload.
 
 ## Searching (GET ONE || GET MANY)
 
@@ -254,5 +254,57 @@ Delete only one post of the user by id.
 
 And so on. You are free to build sub-entities API in accord to your business logic.
 
+## Versions
+If you API has to support versions, you should follow next simple approach. Just put the version after root of your API, starts with 'V' letter. For example:
+> /api/v1/users
+
+> /api/v1.2/users
+
+> /v2/users
+
+## Errors
+You must use HTTP Error Codes! There are main principle:
+* 2** - request was processed
+* 4** - request is bad (client error)
+* 5** = request is good, but server made a mistake (server error)
+
+Follow that principle and always return proper error code with detail describe of the error, for example:
+```json
+{
+  "object": "clinet_error",
+  "status": 400,
+  "message": "The field can't be null!"
+}
+```
+
+```json
+{
+  "object": "server_error",
+  "status": 500,
+  "message": "Exception while data recalculating!"
+}
+```
 
 ## SUMMARY
+The main point of this document can be presented in the next few rules of building API:
+* Follow naming rule: 
+    * names of the entities must be in the snake_case and in the plural form
+    * names of the actions must start from the 'do' word and be in the camelCase
+* Build hierarchical API:
+    * put name of the entity in the root
+    * put sub-entities after the parent entity
+    * follow principle: without ID is bulk action (on set), with ID is a action with one entity
+* Use HTTP methods:
+    * Use GET for getting and searching info
+    * Use POST for creating new entity and trigger an process
+    * Use PUT for updating
+    * Use DELETE for deleting
+* Use HTTP Error Codes
+* Use versions (if needed)
+* Follow the rules for responses
+    * DTO for one-entity response
+    * Special container DTO for list
+* Use special params for getting
+    * fields - for cut answer
+    * limit - limit list of answers
+    * offset - offset list of answers
