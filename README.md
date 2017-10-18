@@ -203,3 +203,56 @@ In other words, the response with multiple entities must contain next fields:
 * total - the count of entities which can be found by passed filters
 * offset - offset which has been applied for the current result set
 * limit - limit which has been applied for the current result set
+
+Also, every response must contain special field called 'object'. The value of which should be the name of the object serialized in the answer.
+
+##Sub-entities (relations, implicit, explicit)
+In some cases, you might need to support relations between entities and display that in your API for usability. 
+
+For example. You have an entity of user's posts which can exist only with a user (author). It means that you can't create a post without relation to the existing user. In this case, it would be better to provide only one API which explicitly shows that you should have the user already to create a new post:
+> POST /users/afdf-3f4f-65fd/posts
+
+> PAYLOAD:
+```json
+{
+  "title": "I'm cool guy",
+  "content": "I'm very cool guy, damn!"
+}
+```
+
+> RESPONSE:
+```json
+{
+  "object": "post",
+  "id": "bmws-ucks-1234",
+  "title": "I'm cool guy",
+  "content": "I'm very cool guy, damn!",
+  "user": {
+                  "object": "user",
+                  "id": "afdf-3f4f-65fd",
+                  "username": "Petya",
+                  "email": "petya@gmail.com"
+               }
+}
+```
+
+That example describes the common approach how to build the API for the relations. But, you don't have to follow it, if you have very small and\or non-logical tied relations. That approach is just a recommendation how to organize relations in your API.
+
+Also, you can build all methods and operations for sub-entities:
+
+> GET /users/afdf-3f4f-65fd/posts
+
+Returns all posts of the user the id of which you passed ass root of the URL.
+
+> DELETE /user/afdf-3f4f-65fd/posts
+
+Delete all posts of the user.
+
+> DELETE /user/afdf-3f4f-65fd/posts/bmws-ucks-1234
+
+Delete only one post of the user by id.
+
+And so on. You are free to build sub-entities API in accord to your business logic.
+
+
+## SUMMARY
