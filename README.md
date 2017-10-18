@@ -66,7 +66,7 @@ Adds new entity and returns the result. Request must be a DTO which describes al
 Updates the entity by id in the URL. The DTO can be different.
 
 #### Get one:
-> GET /users/afdf-3f4f-65fd?param=param1
+> GET /users/afdf-3f4f-65fd
 
 > RESPONSE 200 OK:
 ```json
@@ -81,7 +81,7 @@ Updates the entity by id in the URL. The DTO can be different.
 Returns the entity by passed id in the URL and parameters(see below). The answer should be the same DTO which is used for PUT method.
 
 #### Get many (search):
-> GET /users?filter1=param
+> GET /users?username=Petya
 
 >RESPONSE 200 OK:
 ```json
@@ -103,18 +103,18 @@ Returns the entity by passed id in the URL and parameters(see below). The answer
 Finds the entities by passed filters and parameters(see below).
 
 #### Delete one:
-> DELETE /users/afdf-3f4f-65fd?param=param1
+> DELETE /users/afdf-3f4f-65fd
 
 > RESPONSE 200 OK
 
-Deletes one entity by passed id.
+Deletes one entity by passed id. Also, the payload can be passed for additional information (if needed, for example: reason of removing).
 
 #### Delete many:
 > DELETE /users
 
 > RESPONSE 200 OK
 
-Deletes all entities. 
+Deletes all entities. Also, the payload can be passed for additional information (if needed, for example: reason of removing).
 
 ## URL writing
 The naming of entities must be in the snake_case and it must be a noun:
