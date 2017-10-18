@@ -129,7 +129,7 @@ The actions are the custom triggers which are used for triggering processes in t
 But! Every action can be applied for one entity or for the set of entities:
 > POST /users/doRecalculateAddresses - set entities
 
-> POST /users/afdf-3f4f-65fd?param=param1/doRecalculateAddresses - one entity
+> POST /users/afdf-3f4f-65fd/doRecalculateAddresses - one entity
 
 An action might contain information for processing. The information must be passed to the server via DTO in the payload.
 
