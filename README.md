@@ -83,7 +83,7 @@ Returns the entity by passed id in the URL and parameters(see below). The answer
 >RESPONSE 200 OK:
 ```json
 {
-  "totalCount": 1,
+  "totalCount": 21,
   "list": [
     {
       "id": "afdf-3f4f-65fd",
