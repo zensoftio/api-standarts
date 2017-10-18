@@ -277,7 +277,7 @@ You must use HTTP Error Codes! There are main principle:
 Follow that principle and always return proper error code with detail describe of the error, for example:
 ```json
 {
-  "object": "clinet_error",
+  "object": "client_error",
   "status": 400,
   "message": "The field can't be null!"
 }
