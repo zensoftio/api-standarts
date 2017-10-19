@@ -63,6 +63,57 @@ Adds new entity and returns the result. Request must be a DTO which describes al
 
 Updates the entity by id in the URL. The DTO can be different.
 
+#### Patch one:
+> PATCH /users/afdf-3f4f-65fd
+
+>PAYLOAD:
+```json
+{
+  "username": "Dimon"
+}
+```
+
+> RESPONSE 200 OK:
+```json
+{
+  "id": "afdf-3f4f-65fd",
+  "username": "Dimon",
+  "email": "petya@gmail.com"
+}
+```
+
+The patching means that the client sends the delta-changes only (field(s)) which must be updated. The field will be updated with passed value.
+
+#### Patch many:
+The patching can be applied for sets too. For example:
+> PATCH /users
+
+>PAYLOAD:
+```json
+{
+  "username": "Dimon"
+}
+```
+
+> RESPONSE 200 OK
+```json
+{
+  "affectedCount": 1
+}
+```
+
+All available users were updated and response contains the count of them. Also, server can apply request and response with 202 HTTP Status. It means that the request will be processed later:
+> PATCH /users
+
+>PAYLOAD:
+```json
+{
+  "username": "Ivan"
+}
+```
+
+> RESPONSE 202 OK
+
 #### Get one:
 > GET /users/afdf-3f4f-65fd
 
@@ -192,6 +243,8 @@ The response must contain the DTO for answer except multi-result case. In the mu
 
 In other words, the response with multiple entities must contain next fields:
 * totalCount - the count of entities which can be found by passed filters
+
+Also, on PATCHing of entity set the response must contains on field - affectedCount. The field must contains the number of entities which have been updated by the patching.
 
 ## Sub-entities (relations, implicit, explicit)
 In some cases, you might need to support relations between entities and display that in your API for usability. 
