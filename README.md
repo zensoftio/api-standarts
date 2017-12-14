@@ -151,14 +151,14 @@ Finds the entities by passed filters and parameters(see below).
 
 > RESPONSE 200 OK
 
-Deletes one entity by passed id. Also, the payload can be passed for additional information (if needed, for example: reason of removing).
+Deletes one entity by passed id. Also, the query params can be passed for additional information (if needed, for example: reason of removing).
 
 #### Delete many:
 > DELETE /users
 
 > RESPONSE 200 OK
 
-Deletes all entities. Also, the payload can be passed for additional information (if needed, for example: reason of removing).
+Deletes all entities. Also, the query params can be passed for additional information (if needed, for example: reason of removing).
 
 ## URL writing
 The naming of entities must be in the snake_case and it must be a noun:
