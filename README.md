@@ -321,6 +321,43 @@ Follow that principle and always return proper error code with detail describe o
 }
 ```
 
+## DTO description
+To describe a communication contract, you can use the "JSON Schema"(http://json-schema.org) standard which helps with it. 
+Every communication DTO should be described in a JSON entity with rules. See the following example (more examples you can find there: http://json-schema.org/examples.html):
+```json
+{
+    "title": "Person",
+    "type": "object",
+    "properties": {
+        "firstName": {
+            "type": "string"
+        },
+        "lastName": {
+            "type": "string"
+        },
+        "age": {
+            "description": "Age in years",
+            "type": "integer",
+            "minimum": 0
+        }
+    },
+    "required": ["firstName", "lastName"]
+}
+```
+
+As you can see, the JSON entity describes every field and its parameters. 
+This information can be used in a validation process on the client and, even, on the backend side (see http://json-schema.org/implementations.html).
+
+Also, on backend side, you are able to generate that schema programmatically. 
+For example, Jackson supports that function in the jackson-module-jsonSchema (see https://github.com/FasterXML/jackson-module-jsonSchema). Generation:
+```java
+ObjectMapper mapper = new ObjectMapper();
+SchemaFactoryWrapper visitor = new SchemaFactoryWrapper();
+mapper.acceptJsonFormatVisitor(mapper.constructType(YOURCLASS.class), visitor);
+JsonSchema jsonSchema = visitor.finalSchema();
+String schemaString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonSchema);
+```
+
 ## SUMMARY
 The main point of this document can be presented in the next few rules of building API:
 * Follow naming rule: 
@@ -344,3 +381,4 @@ The main point of this document can be presented in the next few rules of buildi
     * fields - for cut answer
     * limit - limit list of answers
     * offset - offset list of answers
+* Use Json Schema for a contract description
