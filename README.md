@@ -166,7 +166,7 @@ The naming of entities must be in the snake_case and it must be a noun:
 
 > BAD /user-details
 
-But! The actions must be verbs and should follow camelCase. Also, every action must start from the 'do' word:
+But! The actions must be verbs and should follow camelCase. Also, every action must start from the 'do' word. The name of the action should be clear (it can contain verbs, nouns, plural, singular, etc):
 > GOOD /user_details/doRecalculateAddresses
 
 > BAD /user_details/recalculateAddresses
@@ -181,6 +181,8 @@ But! Every action can be applied for one entity or for the set of entities:
 > POST /users/doRecalculateAddresses - set entities
 
 > POST /users/afdf-3f4f-65fd/doRecalculateAddresses - one entity
+
+> POST /users/afdf-3f4f-65fd/doReformatPhone - one entity and the action is with one entity
 
 An action might contain information for processing. The information must be passed to the server via DTO in the payload.
 
